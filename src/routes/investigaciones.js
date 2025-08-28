@@ -3,6 +3,7 @@ import { z } from "zod";
 import Investigacion, { Comentario } from "../models/Investigacion.js";
 import { requireSession, isInvestigador } from "../middleware/auth.js";
 import { uploadPdfMem } from "../middleware/uploadMemory.js";
+import Pregunta from "../models/Pregunta.js";
 
 const router = Router();
 
@@ -71,6 +72,7 @@ router.post("/", requireSession, isInvestigador, (req, res) => {
         autor: { userId: req.session.user.id, nombre: req.session.user.nombre || "Autor" }
       });
 
+      // No devolver el base64 para no inflar la respuesta
       const invSafe = inv.toObject();
       delete invSafe.pdf.base64;
       res.status(201).json(invSafe);
@@ -82,13 +84,18 @@ router.post("/", requireSession, isInvestigador, (req, res) => {
   });
 });
 
-// DETALLE (público) sin base64
+// DETALLE (público) sin base64 + preguntas y comentarios
 router.get("/:id", async (req, res) => {
   try {
     const inv = await Investigacion.findById(req.params.id).select({ "pdf.base64": 0 });
     if (!inv) return res.status(404).json({ message: "No encontrada" });
-    const comentarios = await Comentario.find({ investigacionId: inv._id }).sort({ createdAt: -1 });
-    res.json({ inv, comentarios });
+
+    const [comentarios, preguntas] = await Promise.all([
+      Comentario.find({ investigacionId: inv._id }).sort({ createdAt: -1 }),
+      Pregunta.find({ investigacionId: inv._id }).sort({ createdAt: -1 })
+    ]);
+
+    res.json({ inv, comentarios, preguntas });
   } catch {
     res.status(500).json({ message: "Error obteniendo detalle" });
   }
@@ -111,7 +118,7 @@ router.get("/:id/pdf", async (req, res) => {
   }
 });
 
-// ACTUALIZAR AUTOR
+// ACTUALIZAR (solo autor)
 router.put("/:id", requireSession, isInvestigador, async (req, res) => {
   try {
     const data = z.object({
@@ -132,6 +139,7 @@ router.put("/:id", requireSession, isInvestigador, async (req, res) => {
 
     Object.assign(inv, data);
     await inv.save();
+
     const invSafe = inv.toObject();
     delete invSafe.pdf?.base64;
     res.json(invSafe);
@@ -141,7 +149,7 @@ router.put("/:id", requireSession, isInvestigador, async (req, res) => {
   }
 });
 
-// ELIMINAR EL AUTOR
+// ELIMINAR (solo autor) + limpia comentarios y preguntas
 router.delete("/:id", requireSession, isInvestigador, async (req, res) => {
   try {
     const inv = await Investigacion.findById(req.params.id);
@@ -149,8 +157,14 @@ router.delete("/:id", requireSession, isInvestigador, async (req, res) => {
     if (String(inv.autor.userId) !== String(req.session.user.id)) {
       return res.status(403).json({ message: "Solo el autor puede eliminar" });
     }
+
     await inv.deleteOne();
-    await Comentario.deleteMany({ investigacionId: inv._id });
+
+    await Promise.all([
+      Comentario.deleteMany({ investigacionId: inv._id }),
+      Pregunta.deleteMany({ investigacionId: inv._id })
+    ]);
+
     res.json({ ok: true });
   } catch {
     res.status(500).json({ message: "Error eliminando" });

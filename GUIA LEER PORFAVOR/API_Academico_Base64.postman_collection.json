@@ -2,7 +2,7 @@
   "info": {
     "name": "API Académico (Base64 PDF) - Localhost",
     "_postman_id": "f83367b5-1529-4a33-8232-ba9b1c9104fc",
-    "description": "Colección con todos los endpoints.",
+    "description": "Colección completa con todos los endpoints del proyecto académico.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -13,21 +13,11 @@
           "name": "Signup (crear usuario investigador)",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": {
               "raw": "{{baseUrl}}/auth/signup",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "signup"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signup"]
             },
             "body": {
               "mode": "raw",
@@ -39,21 +29,11 @@
           "name": "Signin (login investigador)",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": {
               "raw": "{{baseUrl}}/auth/signin",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "signin"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signin"]
             },
             "body": {
               "mode": "raw",
@@ -68,13 +48,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/auth/signout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "signout"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signout"]
             }
           }
         }
@@ -87,16 +62,10 @@
           "name": "Listar investigaciones (público)",
           "request": {
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/investigaciones",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "investigaciones"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "investigaciones"]
             }
           }
         },
@@ -104,60 +73,22 @@
           "name": "Crear investigación (con PDF Base64)",
           "request": {
             "method": "POST",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/investigaciones",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "investigaciones"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "investigaciones"]
             },
             "body": {
               "mode": "formdata",
               "formdata": [
-                {
-                  "key": "pdf",
-                  "type": "file",
-                  "src": ""
-                },
-                {
-                  "key": "titulo",
-                  "type": "text",
-                  "value": "Efecto de la luz en plantas"
-                },
-                {
-                  "key": "area",
-                  "type": "text",
-                  "value": "biología"
-                },
-                {
-                  "key": "gradoAcademico",
-                  "type": "text",
-                  "value": "10"
-                },
-                {
-                  "key": "descripcion",
-                  "type": "text",
-                  "value": "Breve descripción del trabajo."
-                },
-                {
-                  "key": "imagenes",
-                  "type": "text",
-                  "value": "[{\"url\":\"https://ejemplo.com/1.jpg\",\"descripcion\":\"img1\"},{\"url\":\"https://ejemplo.com/2.jpg\",\"descripcion\":\"img2\"},{\"url\":\"https://ejemplo.com/3.jpg\",\"descripcion\":\"img3\"},{\"url\":\"https://ejemplo.com/4.jpg\",\"descripcion\":\"img4\"}]"
-                },
-                {
-                  "key": "conclusiones",
-                  "type": "text",
-                  "value": "Conclusiones del trabajo."
-                },
-                {
-                  "key": "recomendaciones",
-                  "type": "text",
-                  "value": "Recomendaciones finales."
-                }
+                { "key": "pdf", "type": "file", "src": "" },
+                { "key": "titulo", "type": "text", "value": "Efecto de la luz en plantas" },
+                { "key": "area", "type": "text", "value": "biología" },
+                { "key": "gradoAcademico", "type": "text", "value": "10" },
+                { "key": "descripcion", "type": "text", "value": "Breve descripción del trabajo." },
+                { "key": "imagenes", "type": "text", "value": "[{\"url\":\"https://ejemplo.com/1.jpg\",\"descripcion\":\"img1\"},{\"url\":\"https://ejemplo.com/2.jpg\",\"descripcion\":\"img2\"},{\"url\":\"https://ejemplo.com/3.jpg\",\"descripcion\":\"img3\"},{\"url\":\"https://ejemplo.com/4.jpg\",\"descripcion\":\"img4\"}]" },
+                { "key": "conclusiones", "type": "text", "value": "Conclusiones del trabajo." },
+                { "key": "recomendaciones", "type": "text", "value": "Recomendaciones finales." }
               ]
             }
           }
@@ -166,17 +97,10 @@
           "name": "Detalle investigación (público)",
           "request": {
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/investigaciones/{{invId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "investigaciones",
-                "{{invId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "investigaciones", "{{invId}}"]
             }
           }
         },
@@ -184,18 +108,10 @@
           "name": "Descargar PDF de investigación",
           "request": {
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/investigaciones/{{invId}}/pdf",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "investigaciones",
-                "{{invId}}",
-                "pdf"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "investigaciones", "{{invId}}", "pdf"]
             }
           }
         },
@@ -203,22 +119,11 @@
           "name": "Actualizar investigación (solo texto)",
           "request": {
             "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": {
               "raw": "{{baseUrl}}/api/investigaciones/{{invId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "investigaciones",
-                "{{invId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "investigaciones", "{{invId}}"]
             },
             "body": {
               "mode": "raw",
@@ -230,17 +135,10 @@
           "name": "Eliminar investigación",
           "request": {
             "method": "DELETE",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/investigaciones/{{invId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "investigaciones",
-                "{{invId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "investigaciones", "{{invId}}"]
             }
           }
         }
@@ -253,22 +151,11 @@
           "name": "Agregar comentario",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
             "url": {
               "raw": "{{baseUrl}}/api/{{invId}}/comentarios",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "{{invId}}",
-                "comentarios"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{invId}}", "comentarios"]
             },
             "body": {
               "mode": "raw",
@@ -277,16 +164,53 @@
           }
         }
       ]
+    },
+    {
+      "name": "Preguntas",
+      "item": [
+        {
+          "name": "Crear pregunta (visitante)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{invId}}/preguntas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{invId}}", "preguntas"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreVisitante\": \"Carlos\",\n  \"texto\": \"¿Qué lámparas usaron en el experimento?\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Respuestas",
+      "item": [
+        {
+          "name": "Responder pregunta (investigador)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/preguntas/{{preguntaId}}/responder",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "preguntas", "{{preguntaId}}", "responder"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"respuesta\": \"Usamos lámparas LED de espectro completo, 8 horas al día.\"\n}"
+            }
+          }
+        }
+      ]
     }
   ],
   "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:5010"
-    },
-    {
-      "key": "invId",
-      "value": ""
-    }
+    { "key": "baseUrl", "value": "http://localhost:5010" },
+    { "key": "invId", "value": "" },
+    { "key": "preguntaId", "value": "" }
   ]
 }
