@@ -1,0 +1,292 @@
+{
+  "info": {
+    "name": "API Académico (Base64 PDF) - Localhost",
+    "_postman_id": "f83367b5-1529-4a33-8232-ba9b1c9104fc",
+    "description": "Colección con todos los endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup (crear usuario investigador)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/signup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "signup"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullname\": \"Ana Investigadora\",\n  \"email\": \"ana@demo.com\",\n  \"username\": \"ana\",\n  \"password\": \"Secreta123\",\n  \"rol\": \"investigador\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Signin (login investigador)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/signin",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "signin"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"ana\",\n  \"password\": \"Secreta123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Signout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/signout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "signout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Investigaciones",
+      "item": [
+        {
+          "name": "Listar investigaciones (público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/investigaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "investigaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear investigación (con PDF Base64)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/investigaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "investigaciones"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "pdf",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "titulo",
+                  "type": "text",
+                  "value": "Efecto de la luz en plantas"
+                },
+                {
+                  "key": "area",
+                  "type": "text",
+                  "value": "biología"
+                },
+                {
+                  "key": "gradoAcademico",
+                  "type": "text",
+                  "value": "10"
+                },
+                {
+                  "key": "descripcion",
+                  "type": "text",
+                  "value": "Breve descripción del trabajo."
+                },
+                {
+                  "key": "imagenes",
+                  "type": "text",
+                  "value": "[{\"url\":\"https://ejemplo.com/1.jpg\",\"descripcion\":\"img1\"},{\"url\":\"https://ejemplo.com/2.jpg\",\"descripcion\":\"img2\"},{\"url\":\"https://ejemplo.com/3.jpg\",\"descripcion\":\"img3\"},{\"url\":\"https://ejemplo.com/4.jpg\",\"descripcion\":\"img4\"}]"
+                },
+                {
+                  "key": "conclusiones",
+                  "type": "text",
+                  "value": "Conclusiones del trabajo."
+                },
+                {
+                  "key": "recomendaciones",
+                  "type": "text",
+                  "value": "Recomendaciones finales."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Detalle investigación (público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/investigaciones/{{invId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "investigaciones",
+                "{{invId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Descargar PDF de investigación",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/investigaciones/{{invId}}/pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "investigaciones",
+                "{{invId}}",
+                "pdf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar investigación (solo texto)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/investigaciones/{{invId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "investigaciones",
+                "{{invId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Descripción actualizada desde Postman\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Eliminar investigación",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/investigaciones/{{invId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "investigaciones",
+                "{{invId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Comentarios",
+      "item": [
+        {
+          "name": "Agregar comentario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{invId}}/comentarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "{{invId}}",
+                "comentarios"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombreVisitante\": \"Luis\",\n  \"texto\": \"Muy claro\",\n  \"puntaje\": 5\n}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5010"
+    },
+    {
+      "key": "invId",
+      "value": ""
+    }
+  ]
+}
