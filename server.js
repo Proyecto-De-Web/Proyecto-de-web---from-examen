@@ -11,6 +11,8 @@ import dotenv from "dotenv";
 import authRoutes from "./src/routes/auth.js";
 import invRoutes from "./src/routes/investigaciones.js";
 import publicoRoutes from "./src/routes/publico.js";
+import preguntasPublicas from "./src/routes/preguntas.js";
+import respuestas from "./src/routes/respuestas.js";
 
 dotenv.config();
 
@@ -49,6 +51,8 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
 app.use("/auth", authRoutes);
 app.use("/api/investigaciones", invRoutes);
 app.use("/api", publicoRoutes);
+app.use("/api", preguntasPublicas);
+app.use("/api", respuestas);
 
 // Pagina no encontrada basicamente 404
 app.use((req, res) => res.status(404).json({ message: "Ruta no encontrada" }));
