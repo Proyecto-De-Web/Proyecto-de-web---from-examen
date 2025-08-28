@@ -8,5 +8,5 @@ function pdfOnly(_req, file, cb) {
 export const uploadPdfMem = multer({
   storage: multer.memoryStorage(),
   fileFilter: pdfOnly,
-  limits: { fileSize: 10 * 1024 * 1024 }
-}).single("pdf"); 
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB
+}).single("pdf");

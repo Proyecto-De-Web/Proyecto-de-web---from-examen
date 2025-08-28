@@ -17,6 +17,7 @@ const invSchemaMultipart = z.object({
   area: z.string().min(3).max(60),
   gradoAcademico: z.string().min(1).max(60),
   descripcion: z.string().min(1).max(500),
+  // Recibe "imagenes" como string (JSON) en form-data y lo parsea
   imagenes: z.preprocess((v) => {
     if (typeof v === "string") { try { return JSON.parse(v); } catch { return v; } }
     return v;
@@ -25,7 +26,7 @@ const invSchemaMultipart = z.object({
   recomendaciones: z.string().min(1).max(500)
 });
 
-// LISTAR (público) sin incluir el base64
+// LISTAR (público) sin incluir el base64 del PDF
 router.get("/", async (req, res) => {
   try {
     const { area, grado, q, page = "1", limit = "10" } = req.query;
@@ -34,14 +35,17 @@ router.get("/", async (req, res) => {
     if (grado) where.gradoAcademico = grado;
     if (q) where.$or = [{ titulo: new RegExp(q, "i") }, { descripcion: new RegExp(q, "i") }];
 
-    const pageN = Math.max(parseInt(page), 1);
-    const limitN = Math.min(Math.max(parseInt(limit), 1), 50);
+    const pageN = Math.max(parseInt(page, 10), 1);
+    const limitN = Math.min(Math.max(parseInt(limit, 10), 1), 50);
 
     const [items, total] = await Promise.all([
       Investigacion.find(where, { "pdf.base64": 0 }) // excluye base64
-        .sort({ titulo: 1 }).skip((pageN - 1) * limitN).limit(limitN),
+        .sort({ titulo: 1 })
+        .skip((pageN - 1) * limitN)
+        .limit(limitN),
       Investigacion.countDocuments(where)
     ]);
+
     res.json({ total, page: pageN, limit: limitN, items });
   } catch {
     res.status(500).json({ message: "Error listando investigaciones" });
@@ -53,7 +57,9 @@ router.post("/", requireSession, isInvestigador, (req, res) => {
   uploadPdfMem(req, res, async (err) => {
     try {
       if (err) {
-        if (err.code === "LIMIT_FILE_SIZE") return res.status(400).json({ message: "El PDF excede 10MB" });
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).json({ message: "El PDF excede 10MB" });
+        }
         return res.status(400).json({ message: err.message || "Error al subir el PDF" });
       }
       if (!req.file) return res.status(400).json({ message: "Falta el archivo PDF (campo 'pdf')" });
