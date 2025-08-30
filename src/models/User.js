@@ -8,5 +8,5 @@ const userSchema = new mongoose.Schema({
   rol:       { type: String, enum: ["investigador","explorador","admin"], default: "explorador" }
 }, { timestamps: true });
 
-export default mongoose.model("Users", userSchema);
- 
+export default mongoose.models.Users ||
+  mongoose.model("Users", userSchema);
