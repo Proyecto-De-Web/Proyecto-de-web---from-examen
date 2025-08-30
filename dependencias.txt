@@ -1,0 +1,17 @@
+#backend
+npm install express cors helmet dotenv morgan mongoose multer cookie-session cookie-parser zod
+
+#seguridad 
+npm install bcrypt
+
+
+#front
+#react y router
+npm install react react-dom react-router-dom
+npm install -D vite @vitejs/plugin-react nodemon concurrently
+
+
+o npm install
+
+#levantar front y backend 
+npm run dev:all

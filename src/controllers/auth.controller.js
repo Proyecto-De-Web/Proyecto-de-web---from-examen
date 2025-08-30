@@ -13,10 +13,18 @@ export const signup = async (req, res) => {
 
     const hash = await bcrypt.hash(password, 10);
     const user = await Users.create({
-      fullname, email, username, password: hash, rol: rol || "explorador"
+      fullname,
+      email,
+      username,
+      password: hash,
+      rol: rol || "explorador"
     });
 
-    return res.status(201).json({ id: user._id, username: user.username, rol: user.rol });
+    return res.status(201).json({
+      id: user._id,
+      username: user.username,
+      rol: user.rol
+    });
   } catch (e) {
     return res.status(500).json({ message: "Error en registro", error: String(e) });
   }
@@ -31,9 +39,18 @@ export const signin = async (req, res) => {
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) return res.status(401).json({ message: "Password inválido" });
 
-    req.session.user = { id: user._id.toString(), rol: user.rol, nombre: user.fullname };
+    req.session.user = {
+      id: user._id.toString(),
+      rol: user.rol,
+      nombre: user.fullname
+    };
 
-    return res.json({ id: user._id, username: user.username, email: user.email, rol: user.rol });
+    return res.json({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      rol: user.rol
+    });
   } catch (e) {
     return res.status(500).json({ message: "Error en login", error: String(e) });
   }
