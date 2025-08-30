@@ -7,14 +7,14 @@ const comentarioSchema = new mongoose.Schema({
   puntaje: { type: Number, min: 1, max: 5, required: true }
 }, { timestamps: true });
 
-export const Comentario = mongoose.model("Comentario", comentarioSchema);
+export const Comentario =
+  mongoose.models.Comentario || mongoose.model("Comentario", comentarioSchema);
 
-// 👇 SOLO archivos (sin URL)
 const imagenArchivoSchema = new mongoose.Schema({
-  base64: { type: String, required: true },     // contenido en base64
-  mime:   { type: String, required: true },     // image/png, image/jpeg, etc.
+  base64: { type: String, required: true },
+  mime: { type: String, required: true },
   originalName: { type: String, required: true },
-  size:   { type: Number, required: true }
+  size: { type: Number, required: true }
 }, { _id: false });
 
 const imagenSchema = new mongoose.Schema({
@@ -33,10 +33,13 @@ const investigacionSchema = new mongoose.Schema({
     size: { type: Number, required: true },
     mime: { type: String, required: true }
   },
-  // 👇 entre 4 y 6 imágenes (todas subidas como archivo)
-  imagenes: {
-    type: [imagenSchema],
-    validate: v => Array.isArray(v) && v.length >= 4 && v.length <= 6
+  imagenes: { type: [imagenSchema], default: [] },
+  imagen: {
+    type: new mongoose.Schema({
+      file: { type: imagenArchivoSchema, required: true },
+      descripcion: { type: String, default: "", trim: true }
+    }, { _id: false }),
+    required: false
   },
   conclusiones: { type: String, required: true, maxlength: 500, trim: true },
   recomendaciones: { type: String, required: true, maxlength: 500, trim: true },
@@ -47,4 +50,5 @@ const investigacionSchema = new mongoose.Schema({
   promedioPuntaje: { type: Number, default: 0 }
 }, { timestamps: true });
 
-export default mongoose.model("Investigacion", investigacionSchema);
+export default mongoose.models.Investigacion ||
+  mongoose.model("Investigacion", investigacionSchema);
